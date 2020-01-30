@@ -180,7 +180,7 @@
       
         
         <li class="menu-item menu-item-home">
-          <a href="/M201575478.github.io/%20" rel="section">
+          <a href="/M201575478.github.io/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
@@ -190,7 +190,7 @@
       
         
         <li class="menu-item menu-item-tags">
-          <a href="/M201575478.github.io/tags/%20" rel="section">
+          <a href="/M201575478.github.io/tags/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
@@ -200,7 +200,7 @@
       
         
         <li class="menu-item menu-item-categories">
-          <a href="/M201575478.github.io/categories/%20" rel="section">
+          <a href="/M201575478.github.io/categories/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
@@ -210,7 +210,7 @@
       
         
         <li class="menu-item menu-item-archives">
-          <a href="/M201575478.github.io/archives/%20" rel="section">
+          <a href="/M201575478.github.io/archives/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
@@ -294,6 +294,16 @@
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/M201575478.github.io/2020/01/29/hello-world/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/M201575478.github.io/2020/01/29/hello-world/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -361,8 +371,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/M201575478.github.io/2020/01/29/My-New-Post/" rel="prev" title="My New Post">
-                My New Post <i class="fa fa-chevron-right"></i>
+              <a href="/M201575478.github.io/2020/01/29/My-New-Post/" rel="prev" title="新客站">
+                新客站 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -392,6 +402,9 @@
 
           
 
+  
+    <div class="comments" id="comments">
+    </div>
   
 
 
@@ -442,16 +455,34 @@
             
               <div class="site-state-item site-state-posts">
               
-                <a href="/M201575478.github.io/archives/%20%7C%7C%20archive">
+                <a href="/M201575478.github.io/archives/%7C%7C%20archive">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
             
 
             
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
 
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/M201575478.github.io/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
             
 
           </nav>
@@ -693,6 +724,28 @@
 
 
 
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'BbTvEnRRNq9hzjyhVs5Ujtqy-gzGzoHsz',
+        appKey: 'BNTHbRtz1s8l8WnWQ6B2lnTV',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
 
 
 

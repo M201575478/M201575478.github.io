@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/M201575478.github.io/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/M201575478.github.io/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/M201575478.github.io/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/M201575478.github.io/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/M201575478.github.io/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/M201575478.github.io/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/M201575478.github.io/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="我们演示的数据集是GSE19136，样本可分为三组（对照组，支架组，紫杉醇组），具体实验设计情况请查看链接。本篇文章主要对对照组和支架组 做差异分析。分析流程主要包括基于limma包的差异分析、pheatmap包的热图和ggplot2的火山图（包括对基因的批量标记）。 1. 差异分析 数据下载  1234567891011121314setwd(&quot;D:\\R\\wjh\\GSE19136&quot;)li">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GEO数据库分析流程（一）">
+<meta property="og:url" content="https://m201575478.github.io/2020/01/30/GEO%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%86%E6%9E%90%E6%B5%81%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/index.html">
+<meta property="og:site_name" content="Bioinformatics">
+<meta property="og:description" content="我们演示的数据集是GSE19136，样本可分为三组（对照组，支架组，紫杉醇组），具体实验设计情况请查看链接。本篇文章主要对对照组和支架组 做差异分析。分析流程主要包括基于limma包的差异分析、pheatmap包的热图和ggplot2的火山图（包括对基因的批量标记）。 1. 差异分析 数据下载  1234567891011121314setwd(&quot;D:\\R\\wjh\\GSE19136&quot;)li">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11699817-83a5e192eef15b3e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11699817-0387dade2780dfe7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11699817-f961d8065d833e18.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11699817-584ddf831409d334.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2020-01-30T06:40:36.000Z">
+<meta property="article:modified_time" content="2020-01-30T06:43:58.235Z">
+<meta property="article:author" content="Xianxiong Ma">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/11699817-83a5e192eef15b3e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/M201575478.github.io/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://M201575478.github.io/2020/01/30/GEO数据库分析流程（一）/"/>
+
+
+
+
+
+  <title>GEO数据库分析流程（一） | Bioinformatics</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/M201575478.github.io/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Bioinformatics</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/M201575478.github.io/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/M201575478.github.io/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/M201575478.github.io/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/M201575478.github.io/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://M201575478.github.io/M201575478.github.io/2020/01/30/GEO%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%86%E6%9E%90%E6%B5%81%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xianxiong Ma">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://img03.sogoucdn.com/v2/thumb/crop/xy/ai/x/0/y/0/w/120/h/90/iw/90/ih/67/t/0/ir/3?t=2&appid=200997&url=http%3A%2F%2F2.pic.pc6.com%2Fthumb%2Fup%2F2013-4%2F20134201014_160_160.png&referer=http%3A%2F%2Fwww.pc6.com%2Faz%2F91274.html&sign=60a309bd9f3fc0bee2037650e0a69e91">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bioinformatics">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">GEO数据库分析流程（一）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-30T14:40:36+08:00">
+                2020-01-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/M201575478.github.io/2020/01/30/GEO%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%86%E6%9E%90%E6%B5%81%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/M201575478.github.io/2020/01/30/GEO%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%86%E6%9E%90%E6%B5%81%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<p>我们演示的数据集是<a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE19136" target="_blank" rel="noopener">GSE19136</a>，样本可分为三组（对照组，支架组，紫杉醇组），具体实验设计情况请查看链接。本篇文章主要对<strong><em>对照组和支架组</em></strong> 做差异分析。分析流程主要包括基于limma包的差异分析、pheatmap包的热图和ggplot2的火山图（包括对基因的批量标记）。</p>
+<h2 id="1-差异分析"><a href="#1-差异分析" class="headerlink" title="1. 差异分析"></a>1. 差异分析</h2><ul>
+<li>数据下载</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">setwd(<span class="string">"D:\\R\\wjh\\GSE19136"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(GEOquery)    <span class="comment">#用GEOquery包获取GEO数据</span></span><br><span class="line"></span><br><span class="line">eSet&lt;-getGEO(<span class="string">'GSE19136'</span>,destdir=<span class="string">'./'</span>,getGPL=<span class="literal">F</span>)  <span class="comment">#下载数据，构建eSet对象</span></span><br><span class="line"></span><br><span class="line">eset&lt;-exprs(eSet[[<span class="number">1</span>]])[,c(<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">10</span>,<span class="number">11</span>)]    <span class="comment">#提取基因表达矩阵</span></span><br><span class="line"></span><br><span class="line">metadata&lt;-pData(eSet[[<span class="number">1</span>]])    <span class="comment">#可以查看芯片的描述性信息，为后面分组做准备</span></span><br><span class="line"></span><br><span class="line">x&lt;-metadata$title[c(<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">10</span>,<span class="number">11</span>)]      <span class="comment">#查看芯片的标题，可以选择用于分组的字段</span></span><br><span class="line"></span><br><span class="line">group_list&lt;-factor(unlist(lapply(x,<span class="keyword">function</span>(x) strsplit(as.character(x),<span class="string">"_"</span>)[[<span class="number">1</span>]][<span class="number">5</span>])))  <span class="comment">#我们发现取第5个字段作为分组信息最好</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>ID转换</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">gpl &lt;- getGEO(<span class="string">'GPL570'</span>, destdir=<span class="string">"."</span>)    <span class="comment">#下载并获取GSE19136对应平台的注释信息</span></span><br><span class="line"></span><br><span class="line">anno1&lt;-Table(gpl)[,c(<span class="number">1</span>,<span class="number">11</span>)]    <span class="comment">#提取探针ID，gene symbol</span></span><br><span class="line"></span><br><span class="line">eset&lt;-as.data.frame(eset)  <span class="comment">#矩阵转换成数据框，便于后面添加非数值型的列</span></span><br><span class="line"></span><br><span class="line">eset$ID &lt;- rownames(eset)  <span class="comment">#添加一列（基因名）</span></span><br><span class="line"></span><br><span class="line">merg&lt;-merge(eset,anno1,by=<span class="string">"ID"</span>)  <span class="comment">#合并表达矩阵和基因名，通过探针号索引</span></span><br><span class="line"></span><br><span class="line">y&lt;-merg$`Gene Symbol`</span><br><span class="line"></span><br><span class="line">gene&lt;-unlist(lapply(y,<span class="keyword">function</span>(y) strsplit(as.character(y),<span class="string">" /// "</span>)[[<span class="number">1</span>]][<span class="number">1</span>]))</span><br><span class="line"></span><br><span class="line">merg$gene &lt;- gene  <span class="comment">#一个探针对应多个基因的时候，取第一个基因</span></span><br><span class="line"></span><br><span class="line">aggr&lt;-aggregate(merg[,<span class="number">2</span>:<span class="number">9</span>],by=list(merg$gene),mean) <span class="comment">#多个探针对应一个基因的时候，取平均值</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>差异分析</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">eset &lt;- aggr[,<span class="number">2</span>:<span class="number">9</span>]</span><br><span class="line"></span><br><span class="line">rownames(eset)&lt;-aggr[,<span class="number">1</span>]  <span class="comment">#得到一个行名为unique的gene symbol矩阵</span></span><br><span class="line"></span><br><span class="line">design&lt;-model.matrix(~-<span class="number">1</span>+group_list)    <span class="comment">#构建实验设计矩阵</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(limma)     </span><br><span class="line"></span><br><span class="line">contrast.matrix&lt;-makeContrasts(contrasts = <span class="string">"group_listbare-group_listcontrol"</span>, levels = design)  <span class="comment">#构建对比模型，比较两个实验条件下表达数据，根据上面的group_list修改bare和control</span></span><br><span class="line"></span><br><span class="line">fit &lt;- lmFit(log2(eset),design)    <span class="comment">#线性模型拟合</span></span><br><span class="line"></span><br><span class="line">fit1 &lt;- contrasts.fit(fit, contrast.matrix)  <span class="comment">#根据对比模型进行差值计算</span></span><br><span class="line"></span><br><span class="line">fit2 &lt;- eBayes(fit1)    <span class="comment">#贝叶斯检验</span></span><br><span class="line"></span><br><span class="line">tempOutput = topTable(fit2, coef=<span class="string">"group_listbare-group_listcontrol"</span>, n=nrow(fit2),lfc=log2(<span class="number">1</span>))    <span class="comment">#生成所有基因的检验结果报表</span></span><br><span class="line"></span><br><span class="line">dif&lt;-tempOutput[tempOutput[,<span class="string">"P.Value"</span>]&lt;<span class="number">0.05</span>,] <span class="comment">#根据P值筛选全部差异表达基因（图）</span></span><br><span class="line"></span><br><span class="line">dim(dif)</span><br><span class="line"></span><br><span class="line">head(dif)</span><br><span class="line"></span><br><span class="line">write.csv(dif,file = <span class="string">"dif.csv"</span>,quote = <span class="literal">F</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-画热图"><a href="#2-画热图" class="headerlink" title="2. 画热图"></a>2. 画热图</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">rt &lt;- read.table(<span class="string">"dif.csv"</span>,header = <span class="literal">T</span>,sep = <span class="string">","</span>,stringsAsFactors = <span class="literal">F</span>)</span><br><span class="line"></span><br><span class="line">heat&lt;-eset[rownames(eset) %<span class="keyword">in</span>% c(head(rownames(subset(dif,dif$logFC&gt;<span class="number">0</span>)),<span class="number">15</span>),head(rownames(subset(dif,dif$logFC&lt;<span class="number">0</span>)),<span class="number">15</span>)),]  <span class="comment">#对前15个上调基因和下调基因做热图</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(pheatmap)</span><br><span class="line"></span><br><span class="line">x &lt;- t(scale(t(heat)))  <span class="comment">#事实证明用这个做归一化，效果最好</span></span><br><span class="line"></span><br><span class="line">pheatmap(x)</span><br></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/11699817-83a5e192eef15b3e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="heatmap.png"></p>
+<h2 id="3-火山图"><a href="#3-火山图" class="headerlink" title="3. 火山图"></a>3. 火山图</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">##################### 火山图  #################################</span></span><br><span class="line"></span><br><span class="line">tempOutput1 = topTable(fit2, coef=<span class="string">"group_listbare-group_listcontrol"</span>, n=nrow(fit2),lfc=log2(<span class="number">1</span>))    <span class="comment">#生成所有基因的检验结果报表</span></span><br><span class="line"></span><br><span class="line">data&lt;-tempOutput1[tempOutput1[,<span class="string">"P.Value"</span>]&lt;=<span class="number">1</span>,]</span><br><span class="line"></span><br><span class="line">data$gene&lt;-rownames(data)</span><br><span class="line"></span><br><span class="line">data$sig[data$P.Value&gt;=<span class="number">0.05</span> | abs(data$logFC) &lt; <span class="number">1</span>] &lt;- <span class="string">"black"</span></span><br><span class="line"></span><br><span class="line">data$sig[data$P.Value&lt;<span class="number">0.05</span> &amp; data$logFC &gt;= <span class="number">1</span>] &lt;- <span class="string">"red"</span></span><br><span class="line"></span><br><span class="line">data$sig[data$P.Value&lt;<span class="number">0.05</span> &amp; data$logFC &lt;= -<span class="number">1</span>] &lt;- <span class="string">"green"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(ggplot2)</span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(ggrepel)</span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(dplyr)</span><br><span class="line"></span><br><span class="line">ggplot(data=data, aes(x=logFC, y =-log10(P.Value),color =sig)) +</span><br><span class="line"></span><br><span class="line">    geom_point() +theme_set(theme_bw())+theme(panel.grid=element_blank(),strip.text = element_blank())+</span><br><span class="line"></span><br><span class="line">    scale_color_manual(values = c(<span class="string">"black"</span>,<span class="string">"green"</span>,<span class="string">"red"</span>))+</span><br><span class="line"></span><br><span class="line">    geom_hline(yintercept = -log10(<span class="number">0.05</span>),lty=<span class="number">4</span>,lwd=<span class="number">0.6</span>,alpha=<span class="number">0.8</span>)+</span><br><span class="line"></span><br><span class="line">    geom_vline(xintercept = c(log2(<span class="number">2</span>),-log2(<span class="number">2</span>)),lty=<span class="number">4</span>,lwd=<span class="number">0.6</span>,alpha=<span class="number">0.8</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/11699817-0387dade2780dfe7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="volcano.png"></p>
+<h2 id="4-基因标记的火山图"><a href="#4-基因标记的火山图" class="headerlink" title="4. 基因标记的火山图"></a>4. 基因标记的火山图</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">input &lt;- data</span><br><span class="line"></span><br><span class="line">Gene&lt;-as.data.frame(row.names(heat))</span><br><span class="line"></span><br><span class="line">volc = ggplot(input, aes(logFC, -log10(P.Value))) +</span><br><span class="line"></span><br><span class="line">          geom_point(aes(col=sig)) + scale_color_manual(values=c(<span class="string">"black"</span>,<span class="string">"green"</span>, <span class="string">"red"</span>)) +</span><br><span class="line"></span><br><span class="line">  ggtitle(<span class="string">"Your title here"</span>)+geom_point(data=input[input$gene %<span class="keyword">in</span>% Gene[,<span class="number">1</span>],], aes(logFC, -log10(P.Value)), colour=<span class="string">"blue"</span>, size=<span class="number">2</span>) +</span><br><span class="line"></span><br><span class="line">  geom_hline(yintercept = -log10(<span class="number">0.05</span>),lty=<span class="number">4</span>,lwd=<span class="number">0.6</span>,alpha=<span class="number">0.8</span>)+</span><br><span class="line"></span><br><span class="line">          geom_vline(xintercept = c(log2(<span class="number">2</span>),-log2(<span class="number">2</span>)),lty=<span class="number">4</span>,lwd=<span class="number">0.6</span>,alpha=<span class="number">0.8</span>)</span><br><span class="line"></span><br><span class="line">volc+geom_text_repel(data=input[input$gene %<span class="keyword">in</span>% Gene[,<span class="number">1</span>],], aes(label=gene))</span><br></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/11699817-f961d8065d833e18.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="MarkVolcano.png"></p>
+<h3 id="如果觉得好，请给我一点动力！"><a href="#如果觉得好，请给我一点动力！" class="headerlink" title="如果觉得好，请给我一点动力！"></a>如果觉得好，请给我一点动力！</h3><p><img src="https://upload-images.jianshu.io/upload_images/11699817-584ddf831409d334.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="微信图片_20200130140014.jpg"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/M201575478.github.io/2020/01/29/My-New-Post/" rel="next" title="新客站">
+                <i class="fa fa-chevron-left"></i> 新客站
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://img03.sogoucdn.com/v2/thumb/crop/xy/ai/x/0/y/0/w/120/h/90/iw/90/ih/67/t/0/ir/3?t=2&appid=200997&url=http%3A%2F%2F2.pic.pc6.com%2Fthumb%2Fup%2F2013-4%2F20134201014_160_160.png&referer=http%3A%2F%2Fwww.pc6.com%2Faz%2F91274.html&sign=60a309bd9f3fc0bee2037650e0a69e91"
+                alt="Xianxiong Ma" />
+            
+              <p class="site-author-name" itemprop="name">Xianxiong Ma</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/M201575478.github.io/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/M201575478.github.io/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/M201575478" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.baidu.com" title="百度" target="_blank">百度</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-差异分析"><span class="nav-number">1.</span> <span class="nav-text">1. 差异分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-画热图"><span class="nav-number">2.</span> <span class="nav-text">2. 画热图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-火山图"><span class="nav-number">3.</span> <span class="nav-text">3. 火山图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-基因标记的火山图"><span class="nav-number">4.</span> <span class="nav-text">4. 基因标记的火山图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如果觉得好，请给我一点动力！"><span class="nav-number">4.1.</span> <span class="nav-text">如果觉得好，请给我一点动力！</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xianxiong Ma</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/M201575478.github.io/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/M201575478.github.io/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/M201575478.github.io/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/M201575478.github.io/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/M201575478.github.io/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/M201575478.github.io/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/M201575478.github.io/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/M201575478.github.io/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/M201575478.github.io/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/M201575478.github.io/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/M201575478.github.io/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/M201575478.github.io/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/M201575478.github.io/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'BbTvEnRRNq9hzjyhVs5Ujtqy-gzGzoHsz',
+        appKey: 'BNTHbRtz1s8l8WnWQ6B2lnTV',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
