@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/M201575478.github.io/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/M201575478.github.io/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/M201575478.github.io/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/M201575478.github.io/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/M201575478.github.io/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/M201575478.github.io/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/M201575478.github.io/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="我们演示的数据集是E-MTAB-7704,可以从github中下载。 1. 特征描述1234567891011121314151617181920212223setwd(&quot;D:\\R\\lilei\\E-MTAB-7704&quot;)library(limma)library(Seurat)library(dplyr)library(magrittr)ikura_sap&lt;-re">
+<meta property="og:type" content="article">
+<meta property="og:title" content="单细胞之Seurat包实战">
+<meta property="og:url" content="https://m201575478.github.io/2020/02/05/%E5%8D%95%E7%BB%86%E8%83%9E%E4%B9%8BSeurat%E5%8C%85%E5%AE%9E%E6%88%98/index.html">
+<meta property="og:site_name" content="Bioinformatics">
+<meta property="og:description" content="我们演示的数据集是E-MTAB-7704,可以从github中下载。 1. 特征描述1234567891011121314151617181920212223setwd(&quot;D:\\R\\lilei\\E-MTAB-7704&quot;)library(limma)library(Seurat)library(dplyr)library(magrittr)ikura_sap&lt;-re">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11699817-26527a7040682ca6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11699817-e175ba583923603a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11699817-bff08d317904597a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11699817-2ae0365f8355c8ed.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11699817-93206e405d7e28cb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11699817-93abfb52f7db0376.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11699817-4e606051d8984d2a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11699817-e1098544f353bbd7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11699817-6402884c0d65c797.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11699817-2cf4fca8e665ab2e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11699817-fc8277a4b0ff38f8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11699817-374ab65d7a3bdb14.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2020-02-05T11:29:33.000Z">
+<meta property="article:modified_time" content="2020-02-05T12:46:15.075Z">
+<meta property="article:author" content="Xianxiong Ma">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/11699817-26527a7040682ca6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/M201575478.github.io/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://M201575478.github.io/2020/02/05/单细胞之Seurat包实战/"/>
+
+
+
+
+
+  <title>单细胞之Seurat包实战 | Bioinformatics</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/M201575478.github.io/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Bioinformatics</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/M201575478.github.io/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/M201575478.github.io/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/M201575478.github.io/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/M201575478.github.io/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://M201575478.github.io/M201575478.github.io/2020/02/05/%E5%8D%95%E7%BB%86%E8%83%9E%E4%B9%8BSeurat%E5%8C%85%E5%AE%9E%E6%88%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xianxiong Ma">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://img03.sogoucdn.com/v2/thumb/crop/xy/ai/x/0/y/0/w/120/h/90/iw/90/ih/67/t/0/ir/3?t=2&appid=200997&url=http%3A%2F%2F2.pic.pc6.com%2Fthumb%2Fup%2F2013-4%2F20134201014_160_160.png&referer=http%3A%2F%2Fwww.pc6.com%2Faz%2F91274.html&sign=60a309bd9f3fc0bee2037650e0a69e91">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bioinformatics">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">单细胞之Seurat包实战</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-05T19:29:33+08:00">
+                2020-02-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/M201575478.github.io/2020/02/05/%E5%8D%95%E7%BB%86%E8%83%9E%E4%B9%8BSeurat%E5%8C%85%E5%AE%9E%E6%88%98/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/M201575478.github.io/2020/02/05/%E5%8D%95%E7%BB%86%E8%83%9E%E4%B9%8BSeurat%E5%8C%85%E5%AE%9E%E6%88%98/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<p>我们演示的数据集是<a href="https://www.ebi.ac.uk/arrayexpress/experiments/E-MTAB-7704/" target="_blank" rel="noopener">E-MTAB-7704</a>,可以从<a href="https://github.com/M201575478/demoData/blob/master/E-MTAB-7704.rar" target="_blank" rel="noopener">github</a>中下载。</p>
+<h2 id="1-特征描述"><a href="#1-特征描述" class="headerlink" title="1. 特征描述"></a>1. 特征描述</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">setwd(&quot;D:\\R\\lilei\\E-MTAB-7704&quot;)</span><br><span class="line">library(limma)</span><br><span class="line">library(Seurat)</span><br><span class="line">library(dplyr)</span><br><span class="line">library(magrittr)</span><br><span class="line">ikura_sap&lt;-read.table(&quot;rawcounts_ikura_sap.txt&quot;,header &#x3D; T,sep &#x3D; &quot;\t&quot;,row.names &#x3D; 1,stringsAsFactors &#x3D; F)</span><br><span class="line">ikura_wt01&lt;-read.table(&quot;rawcounts_ikura_wt01.txt&quot;,header &#x3D; T,sep &#x3D; &quot;\t&quot;,row.names &#x3D; 1,stringsAsFactors &#x3D; F)</span><br><span class="line">ikura_wt02&lt;-read.table(&quot;rawcounts_ikura_wt02.txt&quot;,header &#x3D; T,sep &#x3D; &quot;\t&quot;,row.names &#x3D; 1,stringsAsFactors &#x3D; F)</span><br><span class="line">ko &lt;- ikura_sap</span><br><span class="line">wt01 &lt;- ikura_wt01</span><br><span class="line">wt02 &lt;- ikura_wt02</span><br><span class="line">colnames(ko)&lt;-paste(&quot;ko&quot;,colnames(ko),sep &#x3D; &quot;_&quot;)</span><br><span class="line">colnames(wt01)&lt;-paste(&quot;wt01&quot;,colnames(wt01),sep &#x3D; &quot;_&quot;)</span><br><span class="line">colnames(wt02)&lt;-paste(&quot;wt02&quot;,colnames(wt02),sep &#x3D; &quot;_&quot;)</span><br><span class="line">dim(ko)</span><br><span class="line">dim(wt01)</span><br><span class="line">dim(wt02)</span><br><span class="line">data1&lt;-cbind(ko,wt01)</span><br><span class="line">data&lt;-cbind(data1,wt02)</span><br><span class="line">pbmc &lt;- CreateSeuratObject(counts &#x3D; data,project &#x3D; &quot;seurat&quot;, min.cells &#x3D; 3, min.features &#x3D; 50, names.delim &#x3D; &quot;_&quot;)</span><br><span class="line">pbmc[[&quot;percent.mt&quot;]] &lt;- PercentageFeatureSet(object &#x3D; pbmc, pattern &#x3D; &quot;^mt-&quot;)</span><br><span class="line">VlnPlot(object &#x3D; pbmc, features &#x3D; c(&quot;nFeature_RNA&quot;, &quot;nCount_RNA&quot;, &quot;percent.mt&quot;), ncol &#x3D; 3)  #保存基因特征小提琴图</span><br><span class="line">pbmc &lt;- subset(x &#x3D; pbmc, subset &#x3D; nFeature_RNA &gt; 50 &amp; percent.mt &lt; 5)</span><br></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/11699817-26527a7040682ca6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="04.featureViolin.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tiff(&quot;04.featureCor.tiff&quot;,units &#x3D; &quot;in&quot;,width &#x3D; 10,height &#x3D; 8,res &#x3D; 600,compression &#x3D; &quot;lzw&quot;)#保存基因特征相关性图</span><br><span class="line">plot1 &lt;- FeatureScatter(object &#x3D; pbmc, feature1 &#x3D; &quot;nCount_RNA&quot;, feature2 &#x3D; &quot;percent.mt&quot;,pt.size&#x3D;1.5)</span><br><span class="line">plot2 &lt;- FeatureScatter(object &#x3D; pbmc, feature1 &#x3D; &quot;nCount_RNA&quot;, feature2 &#x3D; &quot;nFeature_RNA&quot;,,pt.size&#x3D;1.5)</span><br><span class="line">CombinePlots(plots &#x3D; list(plot1, plot2))</span><br><span class="line">dev.off()</span><br></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/11699817-e175ba583923603a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="04.featureCor.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">pbmc &lt;- NormalizeData(object &#x3D; pbmc, normalization.method &#x3D; &quot;LogNormalize&quot;, scale.factor &#x3D; 10000) #对数据进行标准化</span><br><span class="line">pbmc &lt;- FindVariableFeatures(object &#x3D; pbmc, selection.method &#x3D; &quot;vst&quot;, nfeatures &#x3D; 1500) #提取那些在细胞间变异系数较大的基因</span><br><span class="line">top10 &lt;- head(x &#x3D; VariableFeatures(object &#x3D; pbmc), 10)</span><br><span class="line">tiff(&quot;04.featureVar.tiff&quot;,units &#x3D; &quot;in&quot;,width &#x3D; 10,height &#x3D; 8,res &#x3D; 600,compression &#x3D; &quot;lzw&quot;)   #保存基因特征方差图</span><br><span class="line">plot1 &lt;- VariableFeaturePlot(object &#x3D; pbmc)</span><br><span class="line">plot2 &lt;- LabelPoints(plot &#x3D; plot1, points &#x3D; top10, repel &#x3D; TRUE)</span><br><span class="line">CombinePlots(plots &#x3D; list(plot1, plot2)) #输出特征方差图</span><br><span class="line">dev.off()</span><br></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/11699817-bff08d317904597a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="04.featureVar.png"></p>
+<h2 id="2-PCA主成分分析"><a href="#2-PCA主成分分析" class="headerlink" title="2. PCA主成分分析"></a>2. PCA主成分分析</h2><h3 id="PCA分析"><a href="#PCA分析" class="headerlink" title="PCA分析"></a>PCA分析</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pbmc&#x3D;ScaleData(pbmc)                     #PCA降维之前的标准预处理步骤</span><br><span class="line">pbmc&#x3D;RunPCA(object&#x3D; pbmc,npcs &#x3D; 20,pc.genes&#x3D;VariableFeatures(object &#x3D; pbmc))</span><br></pre></td></tr></table></figure>
+<h3 id="绘制每个PCA成分的相关基因"><a href="#绘制每个PCA成分的相关基因" class="headerlink" title="绘制每个PCA成分的相关基因"></a>绘制每个PCA成分的相关基因</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tiff(&quot;05.pcaGene.tiff&quot;,units &#x3D; &quot;in&quot;,width &#x3D; 10,height &#x3D; 8,res &#x3D; 600,compression &#x3D; &quot;lzw&quot;)</span><br><span class="line">VizDimLoadings(object &#x3D; pbmc, dims &#x3D; 1:4, reduction &#x3D; &quot;pca&quot;,nfeatures &#x3D; 20)</span><br><span class="line">dev.off()</span><br></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/11699817-2ae0365f8355c8ed.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="05.pcaGene.png"></p>
+<h3 id="主成分分析图形"><a href="#主成分分析图形" class="headerlink" title="主成分分析图形"></a>主成分分析图形</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tiff(&quot;05.PCA.tiff&quot;,units &#x3D; &quot;in&quot;,width &#x3D; 10,height &#x3D; 8,res &#x3D; 600,compression &#x3D; &quot;lzw&quot;)</span><br><span class="line">DimPlot(object &#x3D; pbmc, reduction &#x3D; &quot;pca&quot;)</span><br><span class="line">dev.off()</span><br></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/11699817-93206e405d7e28cb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="05.PCA.png"></p>
+<h3 id="主成分分析热图"><a href="#主成分分析热图" class="headerlink" title="主成分分析热图"></a>主成分分析热图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tiff(&quot;05.pcaHeatmap.tiff&quot;,units &#x3D; &quot;in&quot;,width &#x3D; 10,height &#x3D; 8,res &#x3D; 600,compression &#x3D; &quot;lzw&quot;)</span><br><span class="line">DimHeatmap(object &#x3D; pbmc, dims &#x3D; 1:4, cells &#x3D; 500, balanced &#x3D; TRUE,nfeatures &#x3D; 30,ncol&#x3D;2)</span><br><span class="line">dev.off()</span><br></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/11699817-93abfb52f7db0376.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="05.pcaHeatmap.png"></p>
+<h3 id="每个PC的p值分布和均匀分布"><a href="#每个PC的p值分布和均匀分布" class="headerlink" title="每个PC的p值分布和均匀分布"></a>每个PC的p值分布和均匀分布</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pbmc &lt;- JackStraw(object &#x3D; pbmc, num.replicate &#x3D; 100)</span><br><span class="line">pbmc &lt;- ScoreJackStraw(object &#x3D; pbmc, dims &#x3D; 1:20)</span><br><span class="line">tiff(&quot;05.pcaJackStraw.tiff&quot;,units &#x3D; &quot;in&quot;,width &#x3D; 10,height &#x3D; 8,res &#x3D; 600,compression &#x3D; &quot;lzw&quot;)</span><br><span class="line">JackStrawPlot(object &#x3D; pbmc, dims &#x3D; 1:20)</span><br><span class="line">dev.off()</span><br></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/11699817-4e606051d8984d2a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="05.pcaJackStraw.png"></p>
+<h2 id="3-TSNE聚类分析和marker基因"><a href="#3-TSNE聚类分析和marker基因" class="headerlink" title="3. TSNE聚类分析和marker基因"></a>3. TSNE聚类分析和marker基因</h2><h3 id="TSNE聚类分析"><a href="#TSNE聚类分析" class="headerlink" title="TSNE聚类分析"></a>TSNE聚类分析</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">pcSelect&#x3D;20</span><br><span class="line">pbmc &lt;- FindNeighbors(object &#x3D; pbmc, dims &#x3D; 1:pcSelect)                #计算邻接距离</span><br><span class="line">pbmc &lt;- FindClusters(object &#x3D; pbmc, resolution &#x3D; 0.5)                  #对细胞分组,优化标准模块化</span><br><span class="line">pbmc &lt;- RunTSNE(object &#x3D; pbmc, dims &#x3D; 1:pcSelect)                      #TSNE聚类</span><br><span class="line">tiff(&quot;06.TSNE.tiff&quot;,units &#x3D; &quot;in&quot;,width &#x3D; 10,height &#x3D; 8,res &#x3D; 600,compression &#x3D; &quot;lzw&quot;)</span><br><span class="line">TSNEPlot(object &#x3D; pbmc, do.label &#x3D; TRUE, pt.size &#x3D; 2, label &#x3D; TRUE)    #TSNE可视化</span><br><span class="line">dev.off()</span><br><span class="line">write.table(pbmc$seurat_clusters,file&#x3D;&quot;06.tsneCluster.txt&quot;,quote&#x3D;F,sep&#x3D;&quot;\t&quot;,col.names&#x3D;F)</span><br></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/11699817-e1098544f353bbd7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="06.TSNE.png"></p>
+<h3 id="寻找差异表达的特征"><a href="#寻找差异表达的特征" class="headerlink" title="寻找差异表达的特征"></a>寻找差异表达的特征</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">logFCfilter&#x3D;0.5</span><br><span class="line">adjPvalFilter&#x3D;0.05</span><br><span class="line">pbmc.markers &lt;- FindAllMarkers(object &#x3D; pbmc,</span><br><span class="line">                               only.pos &#x3D; FALSE,</span><br><span class="line">                               min.pct &#x3D; 0.25,</span><br><span class="line">                               logfc.threshold &#x3D; logFCfilter)</span><br><span class="line">sig.markers&#x3D;pbmc.markers[(abs(as.numeric(as.vector(pbmc.markers$avg_logFC)))&gt;logFCfilter &amp; as.numeric(as.vector(pbmc.markers$p_val_adj))&lt;adjPvalFilter),]</span><br><span class="line">write.table(sig.markers,file&#x3D;&quot;06.markers.xls&quot;,sep&#x3D;&quot;\t&quot;,row.names&#x3D;F,quote&#x3D;F)</span><br></pre></td></tr></table></figure>
+<h3 id="绘制marker在各个cluster的热图"><a href="#绘制marker在各个cluster的热图" class="headerlink" title="绘制marker在各个cluster的热图"></a>绘制marker在各个cluster的热图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">top10 &lt;- pbmc.markers %&gt;% group_by(cluster) %&gt;% top_n(n &#x3D; 10, wt &#x3D; avg_logFC)</span><br><span class="line">tiff(&quot;06.tsneHeatmap.tiff&quot;,units &#x3D; &quot;in&quot;,width &#x3D; 10,height &#x3D; 8,res &#x3D; 600,compression &#x3D; &quot;lzw&quot;)</span><br><span class="line">DoHeatmap(object &#x3D; pbmc, features &#x3D; top10$gene) + NoLegend()</span><br><span class="line">dev.off()</span><br></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/11699817-6402884c0d65c797.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="06.tsneHeatmap.png"></p>
+<h3 id="绘制marker的小提琴图"><a href="#绘制marker的小提琴图" class="headerlink" title="绘制marker的小提琴图"></a>绘制marker的小提琴图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tiff(&quot;06.markerViolin.tiff&quot;,units &#x3D; &quot;in&quot;,width &#x3D; 10,height &#x3D; 8,res &#x3D; 600,compression &#x3D; &quot;lzw&quot;)</span><br><span class="line">VlnPlot(object &#x3D; pbmc, features &#x3D; c(&quot;Icos&quot;, &quot;Il2rb&quot;, &quot;Rorc&quot;, &quot;Tbx21&quot;, &quot;Ifng&quot;, &quot;Il17a&quot;))</span><br><span class="line">dev.off()</span><br></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/11699817-2cf4fca8e665ab2e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="06.markerViolin.png"></p>
+<h3 id="绘制marker在各个cluster的散点图"><a href="#绘制marker在各个cluster的散点图" class="headerlink" title="绘制marker在各个cluster的散点图"></a>绘制marker在各个cluster的散点图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tiff(&quot;06.markerScatter.tiff&quot;,units &#x3D; &quot;in&quot;,width &#x3D; 10,height &#x3D; 8,res &#x3D; 600,compression &#x3D; &quot;lzw&quot;)</span><br><span class="line">FeaturePlot(object &#x3D; pbmc, features &#x3D; c(&quot;Icos&quot;, &quot;Il2rb&quot;, &quot;Rorc&quot;, &quot;Tbx21&quot;, &quot;Ifng&quot;, &quot;Il17a&quot;),cols &#x3D; c(&quot;green&quot;, &quot;red&quot;))</span><br><span class="line">dev.off()</span><br></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/11699817-fc8277a4b0ff38f8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="06.markerScatter.png"></p>
+<h3 id="绘制marker在各个cluster的气泡图"><a href="#绘制marker在各个cluster的气泡图" class="headerlink" title="绘制marker在各个cluster的气泡图"></a>绘制marker在各个cluster的气泡图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tiff(&quot;06.markerBubble.tiff&quot;,units &#x3D; &quot;in&quot;,width &#x3D; 10,height &#x3D; 8,res &#x3D; 600,compression &#x3D; &quot;lzw&quot;)</span><br><span class="line">cluster10Marker&#x3D;head(top10$gene,10)</span><br><span class="line">DotPlot(object &#x3D; pbmc, features &#x3D; cluster10Marker)</span><br><span class="line">dev.off()</span><br></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/11699817-374ab65d7a3bdb14.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="06.markerBubble.png"></p>
+<h2 id="4-生成cluster-fp-csv文件"><a href="#4-生成cluster-fp-csv文件" class="headerlink" title="4. 生成cluster_fp.csv文件"></a>4. 生成cluster_fp.csv文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">.row_stats_by_factor &#x3D; function (data, fact, rowFunction &#x3D; rowMeans) &#123;</span><br><span class="line">	u &#x3D; as.character(sort(unique(fact)))</span><br><span class="line">	fact[is.na(fact)] &#x3D; F</span><br><span class="line">	n&#x3D;length(u)</span><br><span class="line">	centers &#x3D; matrix(NA,dim(data)[1], n, dimnames &#x3D; list(rownames(data), u))</span><br><span class="line">	for (i in u) &#123;</span><br><span class="line">		if(sum(fact&#x3D;&#x3D;i, na.rm&#x3D;T)&gt;1) &#123;</span><br><span class="line">			centers[,i] &#x3D; rowFunction(data[,fact&#x3D;&#x3D;i,drop&#x3D;F])</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			centers[,i] &#x3D; data[,fact&#x3D;&#x3D;i]</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; # much faster than tapply</span><br><span class="line">	return(centers)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">us &#x3D; as.matrix(pbmc@assays$RNA@data)</span><br><span class="line">f_g_cov &#x3D; rowSums(us) &gt; 10</span><br><span class="line">clust_geomean &#x3D; .row_stats_by_factor(us[f_g_cov,], pbmc@active.ident, function(y) &#123;exp(rowMeans(log(1+y)))-1&#125;)</span><br><span class="line">clust_meansize &#x3D; tapply(colSums(us), pbmc@active.ident, mean)</span><br><span class="line">ideal_cell_size &#x3D; pmin(1000, median(clust_meansize))</span><br><span class="line">g_fp &#x3D; t(ideal_cell_size*t(clust_geomean)&#x2F;as.vector(clust_meansize))</span><br><span class="line">fp_reg &#x3D; 0.1 </span><br><span class="line">g_fp_n &#x3D; (fp_reg+g_fp)&#x2F;apply(fp_reg+g_fp, 1, median)</span><br><span class="line">write.csv(g_fp_n,file &#x3D; &quot;cluster_fp.csv&quot;,quote &#x3D; F)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/M201575478.github.io/2020/02/03/Cybersort%E5%AE%9E%E6%88%98/" rel="next" title="Cybersort实战">
+                <i class="fa fa-chevron-left"></i> Cybersort实战
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://img03.sogoucdn.com/v2/thumb/crop/xy/ai/x/0/y/0/w/120/h/90/iw/90/ih/67/t/0/ir/3?t=2&appid=200997&url=http%3A%2F%2F2.pic.pc6.com%2Fthumb%2Fup%2F2013-4%2F20134201014_160_160.png&referer=http%3A%2F%2Fwww.pc6.com%2Faz%2F91274.html&sign=60a309bd9f3fc0bee2037650e0a69e91"
+                alt="Xianxiong Ma" />
+            
+              <p class="site-author-name" itemprop="name">Xianxiong Ma</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/M201575478.github.io/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/M201575478" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.baidu.com" title="百度" target="_blank">百度</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-特征描述"><span class="nav-number">1.</span> <span class="nav-text">1. 特征描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-PCA主成分分析"><span class="nav-number">2.</span> <span class="nav-text">2. PCA主成分分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PCA分析"><span class="nav-number">2.1.</span> <span class="nav-text">PCA分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#绘制每个PCA成分的相关基因"><span class="nav-number">2.2.</span> <span class="nav-text">绘制每个PCA成分的相关基因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主成分分析图形"><span class="nav-number">2.3.</span> <span class="nav-text">主成分分析图形</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主成分分析热图"><span class="nav-number">2.4.</span> <span class="nav-text">主成分分析热图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#每个PC的p值分布和均匀分布"><span class="nav-number">2.5.</span> <span class="nav-text">每个PC的p值分布和均匀分布</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-TSNE聚类分析和marker基因"><span class="nav-number">3.</span> <span class="nav-text">3. TSNE聚类分析和marker基因</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TSNE聚类分析"><span class="nav-number">3.1.</span> <span class="nav-text">TSNE聚类分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#寻找差异表达的特征"><span class="nav-number">3.2.</span> <span class="nav-text">寻找差异表达的特征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#绘制marker在各个cluster的热图"><span class="nav-number">3.3.</span> <span class="nav-text">绘制marker在各个cluster的热图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#绘制marker的小提琴图"><span class="nav-number">3.4.</span> <span class="nav-text">绘制marker的小提琴图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#绘制marker在各个cluster的散点图"><span class="nav-number">3.5.</span> <span class="nav-text">绘制marker在各个cluster的散点图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#绘制marker在各个cluster的气泡图"><span class="nav-number">3.6.</span> <span class="nav-text">绘制marker在各个cluster的气泡图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-生成cluster-fp-csv文件"><span class="nav-number">4.</span> <span class="nav-text">4. 生成cluster_fp.csv文件</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xianxiong Ma</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/M201575478.github.io/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/M201575478.github.io/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/M201575478.github.io/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/M201575478.github.io/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/M201575478.github.io/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/M201575478.github.io/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/M201575478.github.io/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/M201575478.github.io/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/M201575478.github.io/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/M201575478.github.io/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/M201575478.github.io/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/M201575478.github.io/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/M201575478.github.io/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'BbTvEnRRNq9hzjyhVs5Ujtqy-gzGzoHsz',
+        appKey: 'BNTHbRtz1s8l8WnWQ6B2lnTV',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
