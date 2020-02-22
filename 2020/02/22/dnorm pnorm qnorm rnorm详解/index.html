@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/M201575478.github.io/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/M201575478.github.io/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/M201575478.github.io/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/M201575478.github.io/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/M201575478.github.io/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/M201575478.github.io/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/M201575478.github.io/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="dnorm 返回值是正态分布概率密度函数值，比如dnorm（z）则表示：标准正态分布密度函数f（x）在x&#x3D;z处的函数值.1dnorm(0, mean &#x3D; 0, sd &#x3D; 1)  1## [1] 0.3989423  1dnorm(0)  1## [1] 0.3989423  1dnorm(2, mean &#x3D; 5, sd &#x3D; 3)  1## [1] 0.08065691  12z_scores &amp;l">
+<meta property="og:type" content="article">
+<meta property="og:title" content="xnorm">
+<meta property="og:url" content="https://m201575478.github.io/2020/02/22/dnorm%20pnorm%20qnorm%20rnorm%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Bioinformatics">
+<meta property="og:description" content="dnorm 返回值是正态分布概率密度函数值，比如dnorm（z）则表示：标准正态分布密度函数f（x）在x&#x3D;z处的函数值.1dnorm(0, mean &#x3D; 0, sd &#x3D; 1)  1## [1] 0.3989423  1dnorm(0)  1## [1] 0.3989423  1dnorm(2, mean &#x3D; 5, sd &#x3D; 3)  1## [1] 0.08065691  12z_scores &amp;l">
+<meta property="og:image" content="https://m201575478.github.io/2020/02/22/dnorm%20pnorm%20qnorm%20rnorm%E8%AF%A6%E8%A7%A3/figure/unnamed-chunk-1-1.png">
+<meta property="og:image" content="https://m201575478.github.io/2020/02/22/dnorm%20pnorm%20qnorm%20rnorm%E8%AF%A6%E8%A7%A3/figure/unnamed-chunk-2-1.png">
+<meta property="og:image" content="https://m201575478.github.io/2020/02/22/dnorm%20pnorm%20qnorm%20rnorm%E8%AF%A6%E8%A7%A3/figure/unnamed-chunk-3-1.png">
+<meta property="og:image" content="https://m201575478.github.io/2020/02/22/dnorm%20pnorm%20qnorm%20rnorm%E8%AF%A6%E8%A7%A3/figure/unnamed-chunk-4-1.png">
+<meta property="article:published_time" content="2020-02-21T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-02-22T07:07:09.101Z">
+<meta property="article:author" content="Xianxiong Ma">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://m201575478.github.io/2020/02/22/dnorm%20pnorm%20qnorm%20rnorm%E8%AF%A6%E8%A7%A3/figure/unnamed-chunk-1-1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/M201575478.github.io/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://M201575478.github.io/2020/02/22/dnorm pnorm qnorm rnorm详解/"/>
+
+
+
+
+
+  <title>xnorm | Bioinformatics</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/M201575478.github.io/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Bioinformatics</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/M201575478.github.io/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/M201575478.github.io/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/M201575478.github.io/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/M201575478.github.io/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://M201575478.github.io/M201575478.github.io/2020/02/22/dnorm%20pnorm%20qnorm%20rnorm%E8%AF%A6%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xianxiong Ma">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://img03.sogoucdn.com/v2/thumb/crop/xy/ai/x/0/y/0/w/120/h/90/iw/90/ih/67/t/0/ir/3?t=2&appid=200997&url=http%3A%2F%2F2.pic.pc6.com%2Fthumb%2Fup%2F2013-4%2F20134201014_160_160.png&referer=http%3A%2F%2Fwww.pc6.com%2Faz%2F91274.html&sign=60a309bd9f3fc0bee2037650e0a69e91">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bioinformatics">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">xnorm</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-22T00:00:00+08:00">
+                2020-02-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/M201575478.github.io/2020/02/22/dnorm%20pnorm%20qnorm%20rnorm%E8%AF%A6%E8%A7%A3/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/M201575478.github.io/2020/02/22/dnorm%20pnorm%20qnorm%20rnorm%E8%AF%A6%E8%A7%A3/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="dnorm-返回值是正态分布概率密度函数值，比如dnorm（z）则表示：标准正态分布密度函数f（x）在x-z处的函数值"><a href="#dnorm-返回值是正态分布概率密度函数值，比如dnorm（z）则表示：标准正态分布密度函数f（x）在x-z处的函数值" class="headerlink" title="dnorm 返回值是正态分布概率密度函数值，比如dnorm（z）则表示：标准正态分布密度函数f（x）在x=z处的函数值."></a><strong><em>dnorm</em></strong> 返回值是正态分布概率密度函数值，比如dnorm（z）则表示：标准正态分布密度函数f（x）在x=z处的函数值.</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dnorm(<span class="number">0</span>, mean = <span class="number">0</span>, sd = <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## [1] 0.3989423</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dnorm(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## [1] 0.3989423</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dnorm(<span class="number">2</span>, mean = <span class="number">5</span>, sd = <span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## [1] 0.08065691</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">z_scores &lt;- seq(-<span class="number">3</span>, <span class="number">3</span>, by = <span class="number">.1</span>)</span><br><span class="line">z_scores</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">##  [1] -3.0 -2.9 -2.8 -2.7 -2.6 -2.5 -2.4 -2.3 -2.2 -2.1 -2.0 -1.9</span><br><span class="line">## [13] -1.8 -1.7 -1.6 -1.5 -1.4 -1.3 -1.2 -1.1 -1.0 -0.9 -0.8 -0.7</span><br><span class="line">## [25] -0.6 -0.5 -0.4 -0.3 -0.2 -0.1  0.0  0.1  0.2  0.3  0.4  0.5</span><br><span class="line">## [37]  0.6  0.7  0.8  0.9  1.0  1.1  1.2  1.3  1.4  1.5  1.6  1.7</span><br><span class="line">## [49]  1.8  1.9  2.0  2.1  2.2  2.3  2.4  2.5  2.6  2.7  2.8  2.9</span><br><span class="line">## [61]  3.0</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dvalues &lt;- dnorm(z_scores)</span><br><span class="line">dvalues</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">##  [1] 0.004431848 0.005952532 0.007915452 0.010420935 0.013582969</span><br><span class="line">##  [6] 0.017528300 0.022394530 0.028327038 0.035474593 0.043983596</span><br><span class="line">## [11] 0.053990967 0.065615815 0.078950158 0.094049077 0.110920835</span><br><span class="line">## [16] 0.129517596 0.149727466 0.171368592 0.194186055 0.217852177</span><br><span class="line">## [21] 0.241970725 0.266085250 0.289691553 0.312253933 0.333224603</span><br><span class="line">## [26] 0.352065327 0.368270140 0.381387815 0.391042694 0.396952547</span><br><span class="line">## [31] 0.398942280 0.396952547 0.391042694 0.381387815 0.368270140</span><br><span class="line">## [36] 0.352065327 0.333224603 0.312253933 0.289691553 0.266085250</span><br><span class="line">## [41] 0.241970725 0.217852177 0.194186055 0.171368592 0.149727466</span><br><span class="line">## [46] 0.129517596 0.110920835 0.094049077 0.078950158 0.065615815</span><br><span class="line">## [51] 0.053990967 0.043983596 0.035474593 0.028327038 0.022394530</span><br><span class="line">## [56] 0.017528300 0.013582969 0.010420935 0.007915452 0.005952532</span><br><span class="line">## [61] 0.004431848</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">plot(dvalues, <span class="comment"># Plot where y = values and x = index of the value in the vector</span></span><br><span class="line">     xaxt = <span class="string">"n"</span>, <span class="comment"># Don't label the x-axis</span></span><br><span class="line">     type = <span class="string">"l"</span>, <span class="comment"># Make it a line plot</span></span><br><span class="line">     main = <span class="string">"pdf of the Standard Normal"</span>,</span><br><span class="line">     xlab= <span class="string">"Z-score"</span>) </span><br><span class="line"><span class="comment"># These commands label the x-axis</span></span><br><span class="line">axis(<span class="number">1</span>, at=which(dvalues == dnorm(<span class="number">0</span>)), labels=c(<span class="number">0</span>))</span><br><span class="line">axis(<span class="number">1</span>, at=which(dvalues == dnorm(<span class="number">1</span>)), labels=c(-<span class="number">1</span>, <span class="number">1</span>))</span><br><span class="line">axis(<span class="number">1</span>, at=which(dvalues == dnorm(<span class="number">2</span>)), labels=c(-<span class="number">2</span>, <span class="number">2</span>))</span><br></pre></td></tr></table></figure>
+
+<p><img src="figure/unnamed-chunk-1-1.png" alt="plot of chunk unnamed-chunk-1"></p>
+<h3 id="pnorm-返回值是正态分布的分布函数值，比如pnorm（z）等价于P-X-≤-z"><a href="#pnorm-返回值是正态分布的分布函数值，比如pnorm（z）等价于P-X-≤-z" class="headerlink" title="pnorm 返回值是正态分布的分布函数值，比如pnorm（z）等价于P[X ≤ z]."></a><strong><em>pnorm</em></strong> 返回值是正态分布的分布函数值，比如pnorm（z）等价于P[X ≤ z].</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnorm(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## [1] 0.5</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnorm(<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## [1] 0.9772499</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnorm(<span class="number">2</span>, mean = <span class="number">5</span>, sd = <span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## [1] 0.1586553</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnorm(<span class="number">2</span>, mean = <span class="number">5</span>, sd = <span class="number">3</span>, lower.tail = <span class="literal">FALSE</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## [1] 0.8413447</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> - pnorm(<span class="number">2</span>, mean = <span class="number">5</span>, sd = <span class="number">3</span>, lower.tail = <span class="literal">FALSE</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## [1] 0.1586553</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">pvalues &lt;- pnorm(z_scores)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Now we'll plot these values</span></span><br><span class="line">plot(pvalues, <span class="comment"># Plot where y = values and x = index of the value in the vector</span></span><br><span class="line">     xaxt = <span class="string">"n"</span>, <span class="comment"># Don't label the x-axis</span></span><br><span class="line">     type = <span class="string">"l"</span>, <span class="comment"># Make it a line plot</span></span><br><span class="line">     main = <span class="string">"cdf of the Standard Normal"</span>,</span><br><span class="line">     xlab= <span class="string">"Quantiles"</span>,</span><br><span class="line">     ylab=<span class="string">"Probability Density"</span>) </span><br><span class="line"></span><br><span class="line"><span class="comment"># These commands label the x-axis</span></span><br><span class="line">axis(<span class="number">1</span>, at=which(pvalues == pnorm(-<span class="number">2</span>)), labels=round(pnorm(-<span class="number">2</span>), <span class="number">2</span>))</span><br><span class="line">axis(<span class="number">1</span>, at=which(pvalues == pnorm(-<span class="number">1</span>)), labels=round(pnorm(-<span class="number">1</span>), <span class="number">2</span>))</span><br><span class="line">axis(<span class="number">1</span>, at=which(pvalues == pnorm(<span class="number">0</span>)), labels=c(<span class="number">.5</span>))</span><br><span class="line">axis(<span class="number">1</span>, at=which(pvalues == pnorm(<span class="number">1</span>)), labels=round(pnorm(<span class="number">1</span>), <span class="number">2</span>))</span><br><span class="line">axis(<span class="number">1</span>, at=which(pvalues == pnorm(<span class="number">2</span>)), labels=round(pnorm(<span class="number">2</span>), <span class="number">2</span>))</span><br></pre></td></tr></table></figure>
+
+<p><img src="figure/unnamed-chunk-2-1.png" alt="plot of chunk unnamed-chunk-2"></p>
+<h3 id="qnorm-返回值是给定概率p后的下分位点"><a href="#qnorm-返回值是给定概率p后的下分位点" class="headerlink" title="qnorm 返回值是给定概率p后的下分位点."></a><strong><em>qnorm</em></strong> 返回值是给定概率p后的下分位点.</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qnorm(<span class="number">.5</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## [1] 0</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qnorm(<span class="number">.96</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## [1] 1.750686</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qnorm(<span class="number">.99</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## [1] 2.326348</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnorm(qnorm(<span class="number">0</span>))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## [1] 0</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qnorm(pnorm(<span class="number">0</span>))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## [1] 0</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># This is for getting two graphs next to each other</span></span><br><span class="line">oldpar &lt;- par()</span><br><span class="line">par(mfrow=c(<span class="number">1</span>,<span class="number">2</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># Let's make a vector of quantiles: from 0 to 1 by increments of .05</span></span><br><span class="line">quantiles &lt;- seq(<span class="number">0</span>, <span class="number">1</span>, by = <span class="number">.05</span>)</span><br><span class="line">quantiles</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">##  [1] 0.00 0.05 0.10 0.15 0.20 0.25 0.30 0.35 0.40 0.45 0.50 0.55</span><br><span class="line">## [13] 0.60 0.65 0.70 0.75 0.80 0.85 0.90 0.95 1.00</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">qvalues &lt;- qnorm(quantiles)</span><br><span class="line">qvalues</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">##  [1]       -Inf -1.6448536 -1.2815516 -1.0364334 -0.8416212</span><br><span class="line">##  [6] -0.6744898 -0.5244005 -0.3853205 -0.2533471 -0.1256613</span><br><span class="line">## [11]  0.0000000  0.1256613  0.2533471  0.3853205  0.5244005</span><br><span class="line">## [16]  0.6744898  0.8416212  1.0364334  1.2815516  1.6448536</span><br><span class="line">## [21]        Inf</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">plot(qvalues,</span><br><span class="line">     type = <span class="string">"l"</span>, <span class="comment"># We want a line graph</span></span><br><span class="line">     xaxt = <span class="string">"n"</span>, <span class="comment"># No x-axis</span></span><br><span class="line">     xlab=<span class="string">"Probability Density"</span>,</span><br><span class="line">     ylab=<span class="string">"Z-scores"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Same pnorm plot from before</span></span><br><span class="line">plot(pvalues, <span class="comment"># Plot where y = values and x = index of the value in the vector</span></span><br><span class="line">     xaxt = <span class="string">"n"</span>, <span class="comment"># Don't label the x-axis</span></span><br><span class="line">     type = <span class="string">"l"</span>, <span class="comment"># Make it a line plot</span></span><br><span class="line">     main = <span class="string">"cdf of the Standard Normal"</span>,</span><br><span class="line">     xlab= <span class="string">"Quantiles"</span>,</span><br><span class="line">     ylab=<span class="string">"Probability Density"</span>) </span><br><span class="line"></span><br><span class="line"><span class="comment"># These commands label the x-axis</span></span><br><span class="line">axis(<span class="number">1</span>, at=which(pvalues == pnorm(-<span class="number">2</span>)), labels=round(pnorm(-<span class="number">2</span>), <span class="number">2</span>))</span><br><span class="line">axis(<span class="number">1</span>, at=which(pvalues == pnorm(-<span class="number">1</span>)), labels=round(pnorm(-<span class="number">1</span>), <span class="number">2</span>))</span><br><span class="line">axis(<span class="number">1</span>, at=which(pvalues == pnorm(<span class="number">0</span>)), labels=c(<span class="number">.5</span>))</span><br><span class="line">axis(<span class="number">1</span>, at=which(pvalues == pnorm(<span class="number">1</span>)), labels=round(pnorm(<span class="number">1</span>), <span class="number">2</span>))</span><br><span class="line">axis(<span class="number">1</span>, at=which(pvalues == pnorm(<span class="number">2</span>)), labels=round(pnorm(<span class="number">2</span>), <span class="number">2</span>))</span><br></pre></td></tr></table></figure>
+
+<p><img src="figure/unnamed-chunk-3-1.png" alt="plot of chunk unnamed-chunk-3"></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">par(oldpar)</span><br></pre></td></tr></table></figure>
+
+<h3 id="rnorm-返回值是n个正态分布随机数构成的向量"><a href="#rnorm-返回值是n个正态分布随机数构成的向量" class="headerlink" title="rnorm 返回值是n个正态分布随机数构成的向量."></a><strong><em>rnorm</em></strong> 返回值是n个正态分布随机数构成的向量.</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set.seed(<span class="number">10</span> - <span class="number">1</span> - <span class="number">2015</span>)</span><br><span class="line">rnorm(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## [1] -0.7197035 -1.4442137 -1.0120381  1.4577066 -0.1212466</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set.seed(<span class="number">10</span> - <span class="number">1</span> - <span class="number">2015</span>)</span><br><span class="line">rnorm(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## [1] -0.7197035 -1.4442137 -1.0120381  1.4577066 -0.1212466</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">n10 &lt;- rnorm(<span class="number">10</span>, mean = <span class="number">70</span>, sd = <span class="number">5</span>)</span><br><span class="line">n100 &lt;- rnorm(<span class="number">100</span>, mean = <span class="number">70</span>, sd = <span class="number">5</span>)</span><br><span class="line">n10000 &lt;- rnorm(<span class="number">10000</span>, mean = <span class="number">70</span>, sd = <span class="number">5</span>)</span><br><span class="line">n10</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">##  [1] 54.70832 72.89000 70.27049 69.16508 72.97937 67.91004</span><br><span class="line">##  [7] 67.77183 72.29231 74.33411 63.57151</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># This is for getting two graphs next to each other</span></span><br><span class="line">oldpar &lt;- par()</span><br><span class="line">par(mfrow = c(<span class="number">1</span>, <span class="number">3</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># The breaks argument specifies how many bars are in the</span></span><br><span class="line"><span class="comment"># histogram</span></span><br><span class="line">hist(n10, breaks = <span class="number">5</span>)</span><br><span class="line">hist(n100, breaks = <span class="number">20</span>)</span><br><span class="line">hist(n10000, breaks = <span class="number">100</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="figure/unnamed-chunk-4-1.png" alt="plot of chunk unnamed-chunk-4"></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">par(oldpar)</span><br></pre></td></tr></table></figure>
+
+<p>参考<a href="http://seankross.com/notes/dpqr/" target="_blank" rel="noopener">http://seankross.com/notes/dpqr/</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/M201575478.github.io/2020/02/22/tidyr%E5%8C%85%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0%E6%93%8D%E4%BD%9C/" rel="next" title="tidyr">
+                <i class="fa fa-chevron-left"></i> tidyr
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/M201575478.github.io/2020/02/22/dplyr%E5%8C%85%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0%E6%93%8D%E4%BD%9C/" rel="prev" title="dplyr">
+                dplyr <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://img03.sogoucdn.com/v2/thumb/crop/xy/ai/x/0/y/0/w/120/h/90/iw/90/ih/67/t/0/ir/3?t=2&appid=200997&url=http%3A%2F%2F2.pic.pc6.com%2Fthumb%2Fup%2F2013-4%2F20134201014_160_160.png&referer=http%3A%2F%2Fwww.pc6.com%2Faz%2F91274.html&sign=60a309bd9f3fc0bee2037650e0a69e91"
+                alt="Xianxiong Ma" />
+            
+              <p class="site-author-name" itemprop="name">Xianxiong Ma</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/M201575478.github.io/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/M201575478" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.baidu.com" title="百度" target="_blank">百度</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#dnorm-返回值是正态分布概率密度函数值，比如dnorm（z）则表示：标准正态分布密度函数f（x）在x-z处的函数值"><span class="nav-number">1.</span> <span class="nav-text">dnorm 返回值是正态分布概率密度函数值，比如dnorm（z）则表示：标准正态分布密度函数f（x）在x&#x3D;z处的函数值.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pnorm-返回值是正态分布的分布函数值，比如pnorm（z）等价于P-X-≤-z"><span class="nav-number">2.</span> <span class="nav-text">pnorm 返回值是正态分布的分布函数值，比如pnorm（z）等价于P[X ≤ z].</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#qnorm-返回值是给定概率p后的下分位点"><span class="nav-number">3.</span> <span class="nav-text">qnorm 返回值是给定概率p后的下分位点.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rnorm-返回值是n个正态分布随机数构成的向量"><span class="nav-number">4.</span> <span class="nav-text">rnorm 返回值是n个正态分布随机数构成的向量.</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xianxiong Ma</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/M201575478.github.io/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/M201575478.github.io/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/M201575478.github.io/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/M201575478.github.io/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/M201575478.github.io/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/M201575478.github.io/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/M201575478.github.io/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/M201575478.github.io/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/M201575478.github.io/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/M201575478.github.io/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/M201575478.github.io/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/M201575478.github.io/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/M201575478.github.io/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'BbTvEnRRNq9hzjyhVs5Ujtqy-gzGzoHsz',
+        appKey: 'BNTHbRtz1s8l8WnWQ6B2lnTV',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

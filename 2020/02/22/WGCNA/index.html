@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/M201575478.github.io/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/M201575478.github.io/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/M201575478.github.io/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/M201575478.github.io/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/M201575478.github.io/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/M201575478.github.io/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/M201575478.github.io/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="基因课例子12345678910library(WGCNA)f_exp &lt;- &quot;sample_data&#x2F;LiverFemale_Expression.txt&quot;options(stringsAsFactors &#x3D; FALSE)exp0 &lt;- read.delim(f_exp, row.names&#x3D;1)datExpr &#x3D; t(ex">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WGCNA">
+<meta property="og:url" content="https://m201575478.github.io/2020/02/22/WGCNA/index.html">
+<meta property="og:site_name" content="Bioinformatics">
+<meta property="og:description" content="基因课例子12345678910library(WGCNA)f_exp &lt;- &quot;sample_data&#x2F;LiverFemale_Expression.txt&quot;options(stringsAsFactors &#x3D; FALSE)exp0 &lt;- read.delim(f_exp, row.names&#x3D;1)datExpr &#x3D; t(ex">
+<meta property="article:published_time" content="2020-02-22T14:26:28.674Z">
+<meta property="article:modified_time" content="2020-02-22T14:24:44.995Z">
+<meta property="article:author" content="Xianxiong Ma">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/M201575478.github.io/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://M201575478.github.io/2020/02/22/WGCNA/"/>
+
+
+
+
+
+  <title>WGCNA | Bioinformatics</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/M201575478.github.io/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Bioinformatics</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/M201575478.github.io/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/M201575478.github.io/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/M201575478.github.io/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/M201575478.github.io/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://M201575478.github.io/M201575478.github.io/2020/02/22/WGCNA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xianxiong Ma">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://img03.sogoucdn.com/v2/thumb/crop/xy/ai/x/0/y/0/w/120/h/90/iw/90/ih/67/t/0/ir/3?t=2&appid=200997&url=http%3A%2F%2F2.pic.pc6.com%2Fthumb%2Fup%2F2013-4%2F20134201014_160_160.png&referer=http%3A%2F%2Fwww.pc6.com%2Faz%2F91274.html&sign=60a309bd9f3fc0bee2037650e0a69e91">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bioinformatics">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">WGCNA</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-22T22:26:28+08:00">
+                2020-02-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/M201575478.github.io/2020/02/22/WGCNA/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/M201575478.github.io/2020/02/22/WGCNA/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="基因课例子"><a href="#基因课例子" class="headerlink" title="基因课例子"></a>基因课例子</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">library(WGCNA)</span><br><span class="line">f_exp &lt;- &quot;sample_data&#x2F;LiverFemale_Expression.txt&quot;</span><br><span class="line">options(stringsAsFactors &#x3D; FALSE)</span><br><span class="line">exp0 &lt;- read.delim(f_exp, row.names&#x3D;1)</span><br><span class="line">datExpr &#x3D; t(exp0)</span><br><span class="line">dim(datExpr)</span><br><span class="line">rownames(datExpr)</span><br><span class="line">  </span><br><span class="line"> # 保存数据</span><br><span class="line">write.table(datExpr, file &#x3D; &quot;datExpr.txt&quot;,sep &#x3D; &quot;\t&quot;, quote &#x3D; F, row.names &#x3D; T)</span><br></pre></td></tr></table></figure>
+
+<h2 id="寻找最佳beta值"><a href="#寻找最佳beta值" class="headerlink" title="寻找最佳beta值"></a>寻找最佳beta值</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">enableWGCNAThreads(nThreads &#x3D; 20)</span><br><span class="line"></span><br><span class="line"># 通过对 power 的多次迭代，确定最佳 power</span><br><span class="line">powers &lt;- c(1:20)</span><br><span class="line">sft &#x3D; pickSoftThreshold(datExpr, </span><br><span class="line">                        powerVector &#x3D; powers, </span><br><span class="line">                        verbose &#x3D; 5,</span><br><span class="line">                        networkType &#x3D; &quot;signed&quot;</span><br><span class="line">                        )</span><br><span class="line"># 计算出来的最佳 β 存放在</span><br><span class="line">sft$powerEstimate</span><br><span class="line"></span><br><span class="line"># 画图</span><br><span class="line">sizeGrWindow(9, 5)</span><br><span class="line">par(mfrow &#x3D; c(1,2))</span><br><span class="line">cex1 &#x3D; 0.9</span><br><span class="line">#  R2 ~ soft-thresholding power</span><br><span class="line">plot(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],</span><br><span class="line">     xlab&#x3D;&quot;Soft Threshold (power)&quot;,ylab&#x3D;&quot;Scale Free Topology Model Fit,signed R^2&quot;,type&#x3D;&quot;n&quot;,</span><br><span class="line">     main &#x3D; paste(&quot;Scale independence&quot;));</span><br><span class="line">text(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],</span><br><span class="line">     labels&#x3D;powers,cex&#x3D;cex1,col&#x3D;&quot;red&quot;);</span><br><span class="line"># this line corresponds to using an R^2 cut-off of h</span><br><span class="line">abline(h&#x3D;0.8,col&#x3D;&quot;red&quot;)</span><br><span class="line"># Mean connectivity ~ soft-thresholding power</span><br><span class="line">plot(sft$fitIndices[,1], sft$fitIndices[,5],</span><br><span class="line">     xlab&#x3D;&quot;Soft Threshold (power)&quot;,ylab&#x3D;&quot;Mean Connectivity&quot;, type&#x3D;&quot;n&quot;,</span><br><span class="line">     main &#x3D; paste(&quot;Mean connectivity&quot;))</span><br><span class="line">text(sft$fitIndices[,1], sft$fitIndices[,5], labels&#x3D;powers, cex&#x3D;cex1,col&#x3D;&quot;red&quot;)</span><br><span class="line"></span><br><span class="line">sft$powerEstimate &#x3D; 13</span><br></pre></td></tr></table></figure>
+<h2 id="构建网络"><a href="#构建网络" class="headerlink" title="构建网络"></a>构建网络</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">net &#x3D; blockwiseModules(</span><br><span class="line">  # 0.输入数据</span><br><span class="line">  datExpr, </span><br><span class="line">  </span><br><span class="line">  # 1. 计算相关系数</span><br><span class="line">  corType &#x3D; &quot;pearson&quot;, # 相关系数算法，pearson|bicor</span><br><span class="line">  </span><br><span class="line">  # 2. 计算邻接矩阵</span><br><span class="line">  power &#x3D; sft$powerEstimate, # 前面得到的 soft power</span><br><span class="line">  networkType &#x3D; &quot;unsigned&quot;, # unsigned | signed | signed hybrid</span><br><span class="line">  </span><br><span class="line">  # 3. 计算 TOM 矩阵</span><br><span class="line">  TOMType &#x3D; &quot;unsigned&quot;, # none | unsigned | signed</span><br><span class="line">  saveTOMs &#x3D; TRUE, # 是否保存</span><br><span class="line">  saveTOMFileBase &#x3D; &quot;blockwiseTOM&quot;, # 保存文件前缀</span><br><span class="line">  </span><br><span class="line">  # 4. 聚类并划分模块</span><br><span class="line">  deepSplit &#x3D; 2, # 0|1|2|3|4, 值越大得到的模块就越多越小</span><br><span class="line">  minModuleSize &#x3D; 30,</span><br><span class="line">  </span><br><span class="line">  # 5. 合并相似模块</span><br><span class="line">  ## 5.1 计算模块特征向量（module eigengenes， MEs），即第一个主成分（1st PC）</span><br><span class="line">  ## 5.2 计算 MEs 与 datTrait 之间的相关性</span><br><span class="line">  ## 5.3 对距离小于 mergeCutHeight （1-cor）的模块进行合并</span><br><span class="line">  mergeCutHeight &#x3D; 0.15, </span><br><span class="line"></span><br><span class="line">  # 其他参数</span><br><span class="line">  numericLabels &#x3D; TRUE, # 以数字命名模块</span><br><span class="line">  nThreads &#x3D; 0 # 0 则使用所有可用线程</span><br><span class="line">  )</span><br><span class="line"># 查看每个模块包含基因数目</span><br><span class="line">table(net$colors)</span><br></pre></td></tr></table></figure>
+
+<h2 id="可视化"><a href="#可视化" class="headerlink" title="可视化"></a>可视化</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">moduleColors &#x3D; labels2colors(net$colors)</span><br><span class="line"># 同时绘制聚类图和模块颜色</span><br><span class="line">pdf(file &#x3D; &quot;plotDendroAndColors.pdf&quot;)</span><br><span class="line">plotDendroAndColors(</span><br><span class="line">  net$dendrograms[[1]], </span><br><span class="line">  moduleColors[net$blockGenes[[1]]],</span><br><span class="line">  &quot;Module colors&quot;,</span><br><span class="line">  dendroLabels &#x3D; FALSE, </span><br><span class="line">  addGuide &#x3D; TRUE)</span><br><span class="line">dev.off()</span><br></pre></td></tr></table></figure>
+<h2 id="导入性状数据"><a href="#导入性状数据" class="headerlink" title="导入性状数据"></a>导入性状数据</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">f_trait &lt;- &quot;sample_data&#x2F;ClinicalTraits.txt&quot;</span><br><span class="line">datTraits &lt;- read.delim(f_trait, row.names&#x3D;1, quote&#x3D;&quot;&quot;)</span><br><span class="line">  # 确保 datTraits 与 datExpr 的 rownames 顺序一致</span><br><span class="line">rownames(datTraits)</span><br><span class="line">traitRows &#x3D; match(rownames(datExpr), rownames(datTraits))</span><br><span class="line">datTraits &#x3D; datTraits[traitRows, ]</span><br></pre></td></tr></table></figure>
+
+<h2 id="性状与模块的关系"><a href="#性状与模块的关系" class="headerlink" title="性状与模块的关系"></a>性状与模块的关系</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 6.0 获得样本数目和基因数目</span><br><span class="line">nGenes &#x3D; ncol(datExpr)</span><br><span class="line">nSamples &#x3D; nrow(datExpr)</span><br><span class="line"></span><br><span class="line"># 6.1 计算模块特征向量 MEs</span><br><span class="line">MEs0 &#x3D; moduleEigengenes(datExpr, moduleColors)$eigengenes</span><br><span class="line">MEs &#x3D; orderMEs(MEs0)</span><br><span class="line"></span><br><span class="line"># 6.2 计算模块（MEs）与性状之间的相关性</span><br><span class="line">moduleTraitCor &#x3D; cor(MEs, datTraits, use &#x3D; &quot;p&quot;)</span><br><span class="line">moduleTraitPvalue &#x3D; corPvalueStudent(moduleTraitCor, nSamples)</span><br><span class="line"></span><br><span class="line"># 6.3 相关性 heatmap</span><br><span class="line">sizeGrWindow(10,6)</span><br><span class="line">## 连接相关性和 pvalue</span><br><span class="line">textMatrix &#x3D; paste(signif(moduleTraitCor, 2), &quot;\n(&quot;,</span><br><span class="line">                   signif(moduleTraitPvalue, 1), &quot;)&quot;, sep &#x3D; &quot;&quot;);</span><br><span class="line">dim(textMatrix) &#x3D; dim(moduleTraitCor)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## heatmap 画图</span><br><span class="line">pdf(file &#x3D; &quot;Module-trait_relationships.pdf&quot;)</span><br><span class="line">par(mar &#x3D; c(6, 8.5, 3, 3))</span><br><span class="line">labeledHeatmap(Matrix &#x3D; moduleTraitCor,</span><br><span class="line">               xLabels &#x3D; names(datTraits),</span><br><span class="line">               yLabels &#x3D; names(MEs),</span><br><span class="line">               ySymbols &#x3D; names(MEs),</span><br><span class="line">               colorLabels &#x3D; FALSE,</span><br><span class="line">               colors &#x3D; greenWhiteRed(50),</span><br><span class="line">               textMatrix &#x3D; textMatrix,</span><br><span class="line">               setStdMargins &#x3D; FALSE,</span><br><span class="line">               cex.text &#x3D; 0.5,</span><br><span class="line">               zlim &#x3D; c(-1,1),</span><br><span class="line">               main &#x3D; paste(&quot;Module-trait relationships&quot;))</span><br><span class="line">dev.off()</span><br></pre></td></tr></table></figure>
+<h2 id="基因与性状关系（GS）-amp-基因与模块关系（MM）"><a href="#基因与性状关系（GS）-amp-基因与模块关系（MM）" class="headerlink" title="基因与性状关系（GS）&amp; 基因与模块关系（MM）"></a>基因与性状关系（GS）&amp; 基因与模块关系（MM）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">modNames &#x3D; substring(names(MEs), 3)</span><br><span class="line">traitNames &#x3D; names(datTraits)</span><br><span class="line"></span><br><span class="line"># 计算 MM</span><br><span class="line">geneModuleMembership &#x3D; as.data.frame(cor(datExpr, MEs, use &#x3D; &quot;p&quot;))</span><br><span class="line">MMPvalue &#x3D; as.data.frame(corPvalueStudent(as.matrix(geneModuleMembership), </span><br><span class="line">                                          nSamples))</span><br><span class="line">names(geneModuleMembership) &#x3D; paste(&quot;MM&quot;, modNames, sep&#x3D;&quot;&quot;)</span><br><span class="line">names(MMPvalue) &#x3D; paste(&quot;p.MM&quot;, modNames, sep&#x3D;&quot;&quot;)</span><br><span class="line"></span><br><span class="line"># 计算 GS</span><br><span class="line">geneTraitSignificance &#x3D; as.data.frame(cor(datExpr, datTraits, use &#x3D; &quot;p&quot;))</span><br><span class="line">GSPvalue &#x3D; as.data.frame(corPvalueStudent(as.matrix(geneTraitSignificance), </span><br><span class="line">                                          nSamples))</span><br><span class="line">names(geneTraitSignificance) &#x3D; paste(&quot;GS.&quot;, traitNames, sep&#x3D;&quot;&quot;);</span><br><span class="line">names(GSPvalue) &#x3D; paste(&quot;p.GS.&quot;, traitNames, sep&#x3D;&quot;&quot;);</span><br><span class="line"></span><br><span class="line">geneInfo&lt;-cbind(geneModuleMembership, MMPvalue, geneTraitSignificance, GSPvalue)</span><br><span class="line">write.table(geneInfo, file &#x3D; &quot;geneInfo.txt&quot;, </span><br><span class="line">            sep &#x3D; &quot;\t&quot;, </span><br><span class="line">            quote &#x3D; F)</span><br></pre></td></tr></table></figure>
+<h2 id="基因共表达网络可视化"><a href="#基因共表达网络可视化" class="headerlink" title="基因共表达网络可视化"></a>基因共表达网络可视化</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">nGenes &#x3D; ncol(datExpr)</span><br><span class="line">nSamples &#x3D; nrow(datExpr)</span><br><span class="line">  # 计算 dissTOM, dissTOM &#x3D; 1 - TOM</span><br><span class="line">  dissTOM &#x3D; 1-TOMsimilarityFromExpr(datExpr, power &#x3D; sft$powerEstimate);</span><br><span class="line">  </span><br><span class="line">  # 取 7 次方，仅为展示更显著</span><br><span class="line">  plotTOM &#x3D; dissTOM^7</span><br><span class="line">  </span><br><span class="line">  # 绘图</span><br><span class="line">  diag(plotTOM) &#x3D; NA;</span><br><span class="line">  sizeGrWindow(9,9)</span><br><span class="line">  geneTree &#x3D; net$dendrograms[[1]]</span><br><span class="line">  TOMplot(plotTOM, geneTree, moduleColors, main &#x3D; &quot;Network heatmap plot, all genes&quot;)</span><br><span class="line">  </span><br><span class="line">  ## 7.2 随机选择 400 条绘图</span><br><span class="line">  nSelect &#x3D; 400</span><br><span class="line">  set.seed(10)</span><br><span class="line">  select &#x3D; sample(nGenes, size &#x3D; nSelect)</span><br><span class="line">  selectTOM &#x3D; dissTOM[select, select]</span><br><span class="line">  # 重新聚类</span><br><span class="line">  selectTree &#x3D; hclust(as.dist(selectTOM), method &#x3D; &quot;average&quot;)</span><br><span class="line">  selectColors &#x3D; moduleColors[select]</span><br><span class="line">  # Open a graphical window</span><br><span class="line">  sizeGrWindow(9,9)</span><br><span class="line">  plotDiss &#x3D; selectTOM^7</span><br><span class="line">  # 绘图</span><br><span class="line">  diag(plotDiss) &#x3D; NA;</span><br><span class="line">  TOMplot(plotDiss, selectTree, selectColors, main &#x3D; &quot;Network heatmap plot, selected genes&quot;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="模块特征向量网络可视化"><a href="#模块特征向量网络可视化" class="headerlink" title="模块特征向量网络可视化"></a>模块特征向量网络可视化</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># 重新计算MEs</span><br><span class="line">MEs &#x3D; moduleEigengenes(datExpr, moduleColors)$eigengenes</span><br><span class="line"># Plot the relationships among the eigengenes and the trait</span><br><span class="line">sizeGrWindow(5,7.5)</span><br><span class="line">par(cex &#x3D; 0.9)</span><br><span class="line">plotEigengeneNetworks(MEs, &quot;&quot;, marDendro &#x3D; c(0,4,1,2), marHeatmap &#x3D; c(3,4,1,2), cex.lab &#x3D; 0.8, xLabelsAngle&#x3D; 90)</span><br><span class="line"></span><br><span class="line"># Plot the dendrogram</span><br><span class="line">sizeGrWindow(6,6)</span><br><span class="line">par(cex &#x3D; 1.0)</span><br><span class="line">plotEigengeneNetworks(MEs, &quot;Eigengene dendrogram&quot;, marDendro &#x3D; c(0,4,2,0),</span><br><span class="line">                      plotHeatmaps &#x3D; FALSE)</span><br><span class="line"># Plot the heatmap matrix (note: this plot will overwrite the dendrogram plot)</span><br><span class="line">par(cex &#x3D; 1.0)</span><br><span class="line">plotEigengeneNetworks(MEs, &quot;Eigengene adjacency heatmap&quot;, marHeatmap &#x3D; c(3,4,2,2),</span><br><span class="line">                      plotDendrograms &#x3D; FALSE, xLabelsAngle &#x3D; 90)</span><br></pre></td></tr></table></figure>
+
+<h2 id="生成-Cytoscape-的输入文件"><a href="#生成-Cytoscape-的输入文件" class="headerlink" title="生成 Cytoscape 的输入文件"></a>生成 Cytoscape 的输入文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># 重新计算 TOM</span><br><span class="line">TOM &#x3D; TOMsimilarityFromExpr(datExpr, power &#x3D; sft$powerEstimate);</span><br><span class="line"># 要可视化的模块</span><br><span class="line">modules &#x3D; c(&quot;blue&quot;)</span><br><span class="line"># 要可视化的基因</span><br><span class="line">probes &#x3D; colnames(datExpr)</span><br><span class="line">inModule &#x3D; is.finite(match(moduleColors, modules));</span><br><span class="line">modProbes &#x3D; probes[inModule]</span><br><span class="line"># 候选基因的 TOM</span><br><span class="line">modTOM &#x3D; TOM[inModule, inModule]</span><br><span class="line"></span><br><span class="line">dimnames(modTOM) &#x3D; list(modProbes, modProbes)</span><br><span class="line"># Export the network into edge and node list files Cytoscape can read</span><br><span class="line">cyt &#x3D; exportNetworkToCytoscape(modTOM,</span><br><span class="line">                               edgeFile &#x3D; paste(&quot;CytoscapeInput-edges-&quot;, paste(modules, collapse&#x3D;&quot;-&quot;), &quot;.txt&quot;, sep&#x3D;&quot;&quot;),</span><br><span class="line">                               nodeFile &#x3D; paste(&quot;CytoscapeInput-nodes-&quot;, paste(modules, collapse&#x3D;&quot;-&quot;), &quot;.txt&quot;, sep&#x3D;&quot;&quot;),</span><br><span class="line">                               weighted &#x3D; TRUE,</span><br><span class="line">                               threshold &#x3D; 0.02,</span><br><span class="line">                               nodeNames &#x3D; modProbes,</span><br><span class="line">                               nodeAttr &#x3D; moduleColors[inModule])</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/M201575478.github.io/2020/02/22/reshape%E5%8C%85%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0%E6%93%8D%E4%BD%9C/" rel="next" title="reshape包常用函数操作">
+                <i class="fa fa-chevron-left"></i> reshape包常用函数操作
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/M201575478.github.io/2020/02/22/%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E4%B9%8Bmetacell%E5%8C%85%E5%88%86%E6%9E%90%E6%B5%81%E7%A8%8B/" rel="prev" title="单细胞分析之metacell包分析流程">
+                单细胞分析之metacell包分析流程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://img03.sogoucdn.com/v2/thumb/crop/xy/ai/x/0/y/0/w/120/h/90/iw/90/ih/67/t/0/ir/3?t=2&appid=200997&url=http%3A%2F%2F2.pic.pc6.com%2Fthumb%2Fup%2F2013-4%2F20134201014_160_160.png&referer=http%3A%2F%2Fwww.pc6.com%2Faz%2F91274.html&sign=60a309bd9f3fc0bee2037650e0a69e91"
+                alt="Xianxiong Ma" />
+            
+              <p class="site-author-name" itemprop="name">Xianxiong Ma</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/M201575478.github.io/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/M201575478" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.baidu.com" title="百度" target="_blank">百度</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基因课例子"><span class="nav-number">1.</span> <span class="nav-text">基因课例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#寻找最佳beta值"><span class="nav-number">2.</span> <span class="nav-text">寻找最佳beta值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构建网络"><span class="nav-number">3.</span> <span class="nav-text">构建网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可视化"><span class="nav-number">4.</span> <span class="nav-text">可视化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导入性状数据"><span class="nav-number">5.</span> <span class="nav-text">导入性状数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性状与模块的关系"><span class="nav-number">6.</span> <span class="nav-text">性状与模块的关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基因与性状关系（GS）-amp-基因与模块关系（MM）"><span class="nav-number">7.</span> <span class="nav-text">基因与性状关系（GS）&amp; 基因与模块关系（MM）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基因共表达网络可视化"><span class="nav-number">8.</span> <span class="nav-text">基因共表达网络可视化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模块特征向量网络可视化"><span class="nav-number">9.</span> <span class="nav-text">模块特征向量网络可视化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成-Cytoscape-的输入文件"><span class="nav-number">10.</span> <span class="nav-text">生成 Cytoscape 的输入文件</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xianxiong Ma</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/M201575478.github.io/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/M201575478.github.io/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/M201575478.github.io/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/M201575478.github.io/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/M201575478.github.io/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/M201575478.github.io/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/M201575478.github.io/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/M201575478.github.io/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/M201575478.github.io/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/M201575478.github.io/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/M201575478.github.io/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/M201575478.github.io/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/M201575478.github.io/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'BbTvEnRRNq9hzjyhVs5Ujtqy-gzGzoHsz',
+        appKey: 'BNTHbRtz1s8l8WnWQ6B2lnTV',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
