@@ -79,25 +79,18 @@
 
 
 
-<meta name="description" content="单细胞分析之metacell包分析流程 我们演示的数据集是GSE110547,可以从github中下载。 123456789101112131415161718192021222324setwd(&quot;D:\\R\\ll\\GSE110547&quot;)GSE110547&lt;-read.table(&quot;GSE110547.csv&quot;,sep &#x3D; &quot;,">
+<meta name="description" content="applyapply(dataset, MARGIN, FUN) 123mat &lt;- matrix(1:24,nrow &#x3D; 4)apply(mat,1, mean)   # 1表示行apply(mat,2, mean)   # 2表示列 lapplylapply(list, function)遍历，X可以是向vector，也可以是list(包括矩阵)，一般只要两个参数。 1234l">
 <meta property="og:type" content="article">
-<meta property="og:title" content="单细胞分析之metacell包分析流程">
-<meta property="og:url" content="https://m201575478.github.io/2020/02/22/%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E4%B9%8Bmetacell%E5%8C%85%E5%88%86%E6%9E%90%E6%B5%81%E7%A8%8B/index.html">
+<meta property="og:title" content="Apply家族函数详解">
+<meta property="og:url" content="https://m201575478.github.io/2020/02/03/Apply%E5%AE%B6%E6%97%8F%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/index.html">
 <meta property="og:site_name" content="Bioinformatics">
-<meta property="og:description" content="单细胞分析之metacell包分析流程 我们演示的数据集是GSE110547,可以从github中下载。 123456789101112131415161718192021222324setwd(&quot;D:\\R\\ll\\GSE110547&quot;)GSE110547&lt;-read.table(&quot;GSE110547.csv&quot;,sep &#x3D; &quot;,">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11699817-1442a5d59f8ad43a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11699817-c578a28c25ac99cf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11699817-55e5bade9c09e3d6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11699817-b6316b0cbc352c6c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11699817-5e39cfccfa5f6c83.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11699817-cc141ec42922558e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11699817-2b416554cabbbe1e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11699817-f7b5547bee522012.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="article:published_time" content="2020-02-22T14:26:28.676Z">
-<meta property="article:modified_time" content="2020-02-22T14:16:28.923Z">
+<meta property="og:description" content="applyapply(dataset, MARGIN, FUN) 123mat &lt;- matrix(1:24,nrow &#x3D; 4)apply(mat,1, mean)   # 1表示行apply(mat,2, mean)   # 2表示列 lapplylapply(list, function)遍历，X可以是向vector，也可以是list(包括矩阵)，一般只要两个参数。 1234l">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/11699817-10ca8d84ec7cf410.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2020-02-03T07:32:56.000Z">
+<meta property="article:modified_time" content="2020-02-22T14:30:01.263Z">
 <meta property="article:author" content="Xianxiong Ma">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/11699817-1442a5d59f8ad43a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/11699817-10ca8d84ec7cf410.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -127,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://M201575478.github.io/2020/02/22/单细胞分析之metacell包分析流程/"/>
+  <link rel="canonical" href="https://M201575478.github.io/2020/02/03/Apply家族函数详解/"/>
 
 
 
 
 
-  <title>单细胞分析之metacell包分析流程 | Bioinformatics</title>
+  <title>Apply家族函数详解 | Bioinformatics</title>
   
 
 
@@ -260,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://M201575478.github.io/M201575478.github.io/2020/02/22/%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E4%B9%8Bmetacell%E5%8C%85%E5%88%86%E6%9E%90%E6%B5%81%E7%A8%8B/">
+    <link itemprop="mainEntityOfPage" href="https://M201575478.github.io/M201575478.github.io/2020/02/03/Apply%E5%AE%B6%E6%97%8F%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Xianxiong Ma">
@@ -277,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">单细胞分析之metacell包分析流程</h1>
+          <h1 class="post-title" itemprop="name headline">Apply家族函数详解</h1>
         
 
         <div class="post-meta">
@@ -289,8 +282,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-22T22:26:28+08:00">
-                2020-02-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-03T15:32:56+08:00">
+                2020-02-03
               </time>
             
 
@@ -308,8 +301,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/M201575478.github.io/2020/02/22/%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E4%B9%8Bmetacell%E5%8C%85%E5%88%86%E6%9E%90%E6%B5%81%E7%A8%8B/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/M201575478.github.io/2020/02/22/%E5%8D%95%E7%BB%86%E8%83%9E%E5%88%86%E6%9E%90%E4%B9%8Bmetacell%E5%8C%85%E5%88%86%E6%9E%90%E6%B5%81%E7%A8%8B/" itemprop="commentCount"></span>
+                <a href="/M201575478.github.io/2020/02/03/Apply%E5%AE%B6%E6%97%8F%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/M201575478.github.io/2020/02/03/Apply%E5%AE%B6%E6%97%8F%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -337,20 +330,17 @@
       
 
       
-        <h1 id="单细胞分析之metacell包分析流程"><a href="#单细胞分析之metacell包分析流程" class="headerlink" title="单细胞分析之metacell包分析流程"></a>单细胞分析之metacell包分析流程</h1><hr>
-<p>我们演示的数据集是<a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE110547" target="_blank" rel="noopener">GSE110547</a>,可以从<a href="https://github.com/M201575478/demoData/blob/master/GSE110547.rar" target="_blank" rel="noopener">github</a>中下载。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">setwd(&quot;D:\\R\\ll\\GSE110547&quot;)</span><br><span class="line">GSE110547&lt;-read.table(&quot;GSE110547.csv&quot;,sep &#x3D; &quot;,&quot;,header &#x3D; T,stringsAsFactors &#x3D; F)</span><br><span class="line">x&lt;-colnames(GSE110547)</span><br><span class="line">eset&lt;-GSE110547[,unlist(lapply(x,function(x) strsplit(as.character(x),&quot;_&quot;)[[1]][1]))&#x3D;&#x3D;&quot;SpleenTR&quot;]</span><br><span class="line">eset$gene&lt;-GSE110547[,1]</span><br><span class="line">eset1&lt;-aggregate(eset[,1:816],by&#x3D;list(eset$gene),max)</span><br><span class="line">dataMouse&lt;-eset1[,2:817]</span><br><span class="line">rownames(dataMouse)&lt;-eset1[,1]</span><br><span class="line">GSE110547a&lt;-dataMouse[,1:204]</span><br><span class="line">GSE110547b&lt;-dataMouse[,205:408]</span><br><span class="line">GSE110547c&lt;-dataMouse[,409:612]</span><br><span class="line">GSE110547d&lt;-dataMouse[,613:816]</span><br><span class="line">GSE110547e&lt;-dataMouse[,409:510]</span><br><span class="line">GSE110547f&lt;-dataMouse[,511:612]</span><br><span class="line">GSE110547g&lt;-dataMouse[,613:714]</span><br><span class="line">GSE110547h&lt;-dataMouse[,715:816]</span><br><span class="line">write.table(GSE110547h,file &#x3D; &quot;GSE110547h.txt&quot;,sep &#x3D; &quot;\t&quot;,quote &#x3D; F)</span><br><span class="line">write.table(GSE110547g,file &#x3D; &quot;GSE110547g.txt&quot;,sep &#x3D; &quot;\t&quot;,quote &#x3D; F)</span><br><span class="line">write.table(GSE110547f,file &#x3D; &quot;GSE110547f.txt&quot;,sep &#x3D; &quot;\t&quot;,quote &#x3D; F)</span><br><span class="line">write.table(GSE110547e,file &#x3D; &quot;GSE110547e.txt&quot;,sep &#x3D; &quot;\t&quot;,quote &#x3D; F)</span><br><span class="line">write.table(GSE110547d,file &#x3D; &quot;GSE110547d.txt&quot;,sep &#x3D; &quot;\t&quot;,quote &#x3D; F)</span><br><span class="line">write.table(GSE110547c,file &#x3D; &quot;GSE110547c.txt&quot;,sep &#x3D; &quot;\t&quot;,quote &#x3D; F)</span><br><span class="line">write.table(GSE110547b,file &#x3D; &quot;GSE110547b.txt&quot;,sep &#x3D; &quot;\t&quot;,quote &#x3D; F)</span><br><span class="line">write.table(GSE110547a,file &#x3D; &quot;GSE110547a.txt&quot;,sep &#x3D; &quot;\t&quot;,quote &#x3D; F)</span><br></pre></td></tr></table></figure>
+        <h3 id="apply"><a href="#apply" class="headerlink" title="apply"></a>apply</h3><p>apply(dataset, MARGIN, FUN)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mat &lt;- matrix(1:24,nrow &#x3D; 4)</span><br><span class="line">apply(mat,1, mean)   # 1表示行</span><br><span class="line">apply(mat,2, mean)   # 2表示列</span><br></pre></td></tr></table></figure>
+<h3 id="lapply"><a href="#lapply" class="headerlink" title="lapply"></a>lapply</h3><p>lapply(list, function)<br>遍历，X可以是向vector，也可以是list(包括矩阵)，一般只要两个参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lapply(1:5, log)</span><br><span class="line">lapply(1:5, mean)</span><br><span class="line">lapply(iris[, 1:4], mean)  # 对列进行遍历</span><br><span class="line">lapply(iris[, 1:4], function(x)lm(x~iris$Petal.Width,data &#x3D; iris[,1:3])) # 这种线性回归情况下只能返回list对象，用lapply尤为合适</span><br></pre></td></tr></table></figure>
+<h3 id="sapply"><a href="#sapply" class="headerlink" title="sapply"></a>sapply</h3><p>sapply(list, function)<br>sapply()函数与lapply()函数类似，但以矩阵、向量等数据类型返回结果。simplify = F时返回与lapply相同的结果。</p>
+<h3 id="tapply"><a href="#tapply" class="headerlink" title="tapply"></a>tapply</h3><p>tapply(data, index, FUN = NULL, …, simplify = TRUE)<br>data只能是<strong><em>向量</em></strong>，index为因子向量，长度应与data相同。类似的函数为split和by</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tapply(iris$Sepal.Length, iris$Species, mean)</span><br></pre></td></tr></table></figure>
 
-<h2 id="分群聚类-amp-画图"><a href="#分群聚类-amp-画图" class="headerlink" title="分群聚类&amp;画图"></a>分群聚类&amp;画图</h2><p>在工作目录下新建UMI目录，存放新生成的8个文件。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">library(metacell)   #第一步可加glob_blacklist_terms&#x3D;scan(&quot;blacklist.txt&quot;,what&#x3D;&quot;&quot;)</span><br><span class="line">sc_mat &#x3D; sc_pipe_clean(index_fn &#x3D;</span><br><span class="line">    &quot;batchfile.txt&quot;,</span><br><span class="line">    base_dir &#x3D; &quot;UMI&#x2F;&quot;,</span><br><span class="line">    batch_meta_attr &#x3D; &quot;MARS_BATCH&quot;,</span><br><span class="line">    mark.sz_cor_norm_max&#x3D; -0.05,</span><br><span class="line">    mark.niche_T &#x3D; 0.05,</span><br><span class="line">    mark.min_tot&#x3D;100,</span><br><span class="line">    mark.min_var_mean &#x3D; 5,</span><br><span class="line">    clust_knn&#x3D;150,</span><br><span class="line">    min_umi_n &#x3D; 100,</span><br><span class="line">    max_umi_n&#x3D;5000,</span><br><span class="line">    amb_epsilon&#x3D;0.03,</span><br><span class="line">    min_clust_size &#x3D; 30,</span><br><span class="line">    sample_n_batches &#x3D; NA,</span><br><span class="line">    filt_amb_on_clusts&#x3D;T,</span><br><span class="line">    filt_outliers_on_clusts&#x3D;F)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sc_cl &#x3D; sc_pipe_cluster(sc_mat,</span><br><span class="line">    mark.sz_cor_norm_max&#x3D; -0.05,</span><br><span class="line">    mark.niche_T &#x3D; 0.05,</span><br><span class="line">    mark.min_var_mean &#x3D; 5,</span><br><span class="line">    mark.min_tot&#x3D;100,</span><br><span class="line">    clust_knn&#x3D;150,</span><br><span class="line">    min_clust_size &#x3D; 30,</span><br><span class="line">    filt_outliers_on_clusts&#x3D;F,</span><br><span class="line">    clust_fp_metadata_fields &#x3D; NA)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sc_pipe_plots(sc_cl,         </span><br><span class="line">	focus_tfs_fn&#x3D;NA,                 </span><br><span class="line">	force_max_deg_2dproj &#x3D; 8,</span><br><span class="line">    store_rda_fn&#x3D;&quot;Plotting_data.Rda&quot;,          </span><br><span class="line">	T_edge_asym &#x3D; F,</span><br><span class="line">	K_2dproj &#x3D; 60,</span><br><span class="line">    K_cells_2dproj &#x3D; 30,</span><br><span class="line">    T_edge_2dproj &#x3D; 0.05,</span><br><span class="line">    restrict_edges_by_fpcor&#x3D;T)</span><br></pre></td></tr></table></figure>
-<p>生成的图如下：<br><img src="https://upload-images.jianshu.io/upload_images/11699817-1442a5d59f8ad43a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="all_2d.png"></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/11699817-c578a28c25ac99cf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="confusion_cor_k60.png"></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/11699817-55e5bade9c09e3d6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="confusion_k60.png"></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/11699817-b6316b0cbc352c6c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="graph_2d.png"></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/11699817-5e39cfccfa5f6c83.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="markers.png"></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/11699817-cc141ec42922558e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="marks_all_mat.png"></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/11699817-2b416554cabbbe1e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="marks_clust_mat.png"></p>
-<p><img src="https://upload-images.jianshu.io/upload_images/11699817-f7b5547bee522012.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="metadata.png"></p>
+<h3 id="mapply"><a href="#mapply" class="headerlink" title="mapply"></a>mapply</h3><p>mapply()函数与 sapply()函数类似，但他可以将多个参数传递给指定函数。 mapply()函数的第一个参数是待应用的FUN函数，它接受多个参数。要传递给FUN()函数的参数作为数据保存时，mapply()函数将保存在数据中的值转换为参数，传递给FUN函数，并调用执行FUN函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">myfun &lt;- function(x,y)&#123;</span><br><span class="line">  if(x&gt;4)return(y)</span><br><span class="line">  else return(x+y)</span><br><span class="line">&#125;</span><br><span class="line">myfun(1:5,2:6) #会报错，因为1:5是向量，跟4比较返回多个逻辑值，在if语句中会报错，所有用mapply</span><br><span class="line">mapply(myfun,1:5,2:6)</span><br></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/11699817-10ca8d84ec7cf410.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="微信截图_20200221130445.png"></p>
 
       
     </div>
@@ -375,8 +365,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/M201575478.github.io/2020/02/22/WGCNA/" rel="next" title="WGCNA">
-                <i class="fa fa-chevron-left"></i> WGCNA
+              <a href="/M201575478.github.io/2020/01/30/GEO%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%86%E6%9E%90%E6%B5%81%E7%A8%8B/" rel="next" title="GEO数据库分析流程">
+                <i class="fa fa-chevron-left"></i> GEO数据库分析流程
               </a>
             
           </div>
@@ -384,6 +374,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/M201575478.github.io/2020/02/03/Cybersort%E5%AE%9E%E6%88%98/" rel="prev" title="Cybersort实战">
+                Cybersort实战 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -528,7 +522,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#单细胞分析之metacell包分析流程"><span class="nav-number">1.</span> <span class="nav-text">单细胞分析之metacell包分析流程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#分群聚类-amp-画图"><span class="nav-number">1.1.</span> <span class="nav-text">分群聚类&amp;画图</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#apply"><span class="nav-number">1.</span> <span class="nav-text">apply</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lapply"><span class="nav-number">2.</span> <span class="nav-text">lapply</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sapply"><span class="nav-number">3.</span> <span class="nav-text">sapply</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tapply"><span class="nav-number">4.</span> <span class="nav-text">tapply</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mapply"><span class="nav-number">5.</span> <span class="nav-text">mapply</span></a></li></ol></div>
             
 
           </div>
